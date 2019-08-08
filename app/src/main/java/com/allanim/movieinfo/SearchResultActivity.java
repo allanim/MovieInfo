@@ -1,11 +1,13 @@
 package com.allanim.movieinfo;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
 import com.allanim.movieinfo.adapter.SearchAdapter;
+import com.allanim.movieinfo.api.OmdbRepository;
 import com.allanim.movieinfo.models.Search;
 import com.allanim.movieinfo.models.SearchResult;
 
@@ -21,6 +23,12 @@ public class SearchResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
+        // action bar
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        
         Intent intent = getIntent();
         searchResult = (SearchResult) intent.getSerializableExtra("searchResult");
 
@@ -28,9 +36,13 @@ public class SearchResultActivity extends AppCompatActivity {
         listView = findViewById(R.id.search_result);
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Search search = (Search) listView.getItemAtPosition(position);
-            Intent goToDetail = new Intent(this, SearchResultActivity.class);
-            goToDetail.putExtra("id", search.getImdbID());
-            startActivity(goToDetail);
+
+            // get detail then move
+            OmdbRepository.getInstance().getMovie(this, search.getImdbID(), result -> {
+                Intent goToDetail = new Intent(this, MovieDetailActivity.class);
+                goToDetail.putExtra("movieDetail", result);
+                startActivity(goToDetail);
+            });
         });
     }
 

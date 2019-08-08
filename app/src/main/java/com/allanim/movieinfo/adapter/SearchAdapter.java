@@ -1,10 +1,6 @@
 package com.allanim.movieinfo.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +10,8 @@ import android.widget.TextView;
 
 import com.allanim.movieinfo.R;
 import com.allanim.movieinfo.models.Search;
+import com.allanim.movieinfo.task.DownloadImageFromInternet;
 
-import java.io.InputStream;
 import java.util.List;
 
 public class SearchAdapter extends ArrayAdapter<Search> {
@@ -58,28 +54,5 @@ public class SearchAdapter extends ArrayAdapter<Search> {
         return view;
     }
 
-    private class DownloadImageFromInternet extends AsyncTask<String, Void, Bitmap> {
-        ImageView imageView;
 
-        public DownloadImageFromInternet(ImageView imageView) {
-            this.imageView = imageView;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String imageURL = urls[0];
-            Bitmap bimage = null;
-            try {
-                InputStream in = new java.net.URL(imageURL).openStream();
-                bimage = BitmapFactory.decodeStream(in);
-
-            } catch (Exception e) {
-                Log.e("Image loading fail", e.getMessage());
-            }
-            return bimage;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            imageView.setImageBitmap(result);
-        }
-    }
 }

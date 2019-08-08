@@ -32,6 +32,9 @@
         <activity
             android:name=".SearchResultActivity"
             android:label="Search Result" />
+        <activity
+            android:name=".MovieDetailActivity"
+            android:label="Movie Info" />
     </application>
 
 </manifest>
