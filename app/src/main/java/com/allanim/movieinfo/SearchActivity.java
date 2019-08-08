@@ -31,8 +31,8 @@ public class SearchActivity extends AppCompatActivity {
             // search
             OmdbRepository.getInstance().searchMovie(this, keyword, result -> {
                 if (result.getTotalResults() > 0) {
-                    Intent intent = new Intent(this, SearchActivity.class);
-                    intent.putExtra("searchList", result);
+                    Intent intent = new Intent(this, SearchResultActivity.class);
+                    intent.putExtra("searchResult", result);
                     startActivity(intent);
                 } else {
                     // no data
